@@ -1,0 +1,49 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  color: white;
+  font-family: "Lucida Console", Courier, monospace;
+}
+
+.container{
+  background: #813dc4;
+  padding: 40px;
+  margin: auto;
+  width: 40%;
+
+}
+
+button{
+  background-color: #381473;
+  border: 2px solid #240d4a;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  font-size: 16px;
+}
+
+table{
+  border: 3px solid #240d4a;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td{
+  width: 142px;
+  height: 142px;
+  text-align: center;
+  font-size: 80px;
+  border: 2px solid #240d4a;
+}
+
+h1, p, button{
+  margin-left: 8%;
+}
