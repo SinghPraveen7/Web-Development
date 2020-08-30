@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      th{
+        padding: 0 20px;
+      }
+      td{
+        padding: 0 20px;
+      }
+      #btn{
+        padding:10px 30px;
+        background: white;
+        border: 3px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <form name="myForm" action="#" onsubmit="return fillTable()" method="post">
+      <label for="proId">Product Id &nbsp &nbsp &nbsp</label>
+      <input type="text" id="proId" name="pid">
+      <p></p>
+      <label for="proName">Product Name </label>
+      <input type="text" id="proName" name="pname">
+      <p></p>
+      <label for="proPrice">Product Price &nbsp</label>
+      <input type="text" id="proPrice" name="price">
+      <p></p>
+      <input id="btn" type="submit" value="Add Product">
+    </form>
+    <p></p>
+    <p></p>
+    <table style="padding: 10px">
+      <thead>
+        <th>Product Id</th>
+        <th>Product Name</th>
+        <th>Product Price</th>
+        <th>Action</th>
+      </thead>
+    </table>
+
+    <script type="text/javascript">
+      var globalArr = [];
+      var cur_ids = [];
+      var counter = 0;
+      var selectedRow = null;
+
+      function delete_row(){
+        var index, table;
+        table = document.getElementsByTagName("table")[0];
+        for(var i = 1; i<table.rows.length; i++){
+          table.rows[i].cells[3].onclick = function(){
+            index = this.parentElement.rowIndex;
+            table.deleteRow(index);
+          }
+        }
+      }
+
+      function update_row(td){
+        selectedRow = td.parentElement.parentElement;
+        document.getElementsByName('pid').value = selectedRow.cells[0].innerHTML;
+        document.getElementsByName('pname').value = selectedRow.cells[1].innerHTML;
+        document.getElementsByName('price').value = selectedRow.cells[2].innerHTML;
+        document.getElementById('btn').value = "Update";
+
+      }
+
+      function generate_table(){
+        var table = document.getElementsByTagName("table")[0];
+        counter+=1;
+        var newRow = table.insertRow(counter);
+        var c1 = newRow.insertCell(0);
+        var c2 = newRow.insertCell(1);
+        var c3 = newRow.insertCell(2);
+        var c4 = newRow.insertCell(3);
+        c1.innerHTML = globalArr[globalArr.length - 1]["product_id"];
+        c2.innerHTML = globalArr[globalArr.length - 1]["product_name"];
+        c3.innerHTML = globalArr[globalArr.length - 1]["product_price"];
+        c4.innerHTML = "<button style='color: red; border: 0;' onclick = 'update_row(this)'><u>Edit</u></button><button style='color: red; border: 0;' onclick = 'delete_row()'><u>Delete</u></button>";
+      }
+
+      function fillTable(){
+        var pid = document.forms["myForm"]["pid"].value;
+        var pname = document.forms["myForm"]["pname"].value;
+        var price = document.forms["myForm"]["price"].value;
+
+        if(selectedRow == null){
+
+          for(var i=0; i<cur_ids.length; i++){
+            if(cur_ids[i] == pid){
+              alert("This product is already added!!");
+              return false;
+            }
+          }
+          cur_ids.push(pid);
+          pobj = {
+            product_id: pid,
+            product_name: pname,
+            product_price: price
+          }
+
+          globalArr.push(pobj);
+          console.log(globalArr);
+          generate_table();
+
+          return false;
+        }
+        else{
+
+          selectedRow.cells[1].innerHTML = pname;
+          selectedRow.cells[2].innerHTML = price;
+          selectedRow = null;
+
+          for(var i=0; i<globalArr.length; i++){
+
+            if(globalArr[i]["product_id"] == pid){
+              globalArr[i]["product_name"] = pname;
+              globalArr[i]["product_price"] = price;
+              break;
+            }
+          }
+
+          document.getElementById("btn").value = "Add Product";
+          return false;
+        }
+      }
+
+    </script>
+
+  </body>
+</html>
